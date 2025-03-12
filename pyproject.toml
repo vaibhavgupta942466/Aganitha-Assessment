@@ -1,0 +1,25 @@
+[project]
+name = "aganitha-assessment"
+version = "0.1.0"
+description = "Task is to write a Python program to fetch research papers based on a user-specified query, The program must identify papers with at least one author affiliated with a pharmaceutical or biotech company and return the results as a CSV file."
+authors = [
+    {name = "Vaibhav",email = "vaibhavgupta942466@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "biopython (>=1.85,<2.0)",
+    "click (>=8.1.8,<9.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "aganitha_assessment", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+get-papers-list = "aganitha_assessment.main:cli"

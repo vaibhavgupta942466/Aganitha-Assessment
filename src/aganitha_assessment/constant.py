@@ -1,0 +1,3 @@
+OUTPUT_FOLDER_NAME = 'output'
+OUTPUT_LOG_FOLDER_NAME = 'logs'
+OUTPUT_FILE_NAME = 'output.cvs'
