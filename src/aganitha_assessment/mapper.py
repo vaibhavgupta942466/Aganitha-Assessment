@@ -2,6 +2,7 @@
 import re
 from typing import Dict, List, Optional
 import logging
+from .constants import ACADEMIC_KEYWORDS, COMPANY_KEYWORDS, CSV_HEADERS
 
 class PaperMapper:
     """Maps PubMed records to a structured format, focusing on non-academic authors and affiliations."""
@@ -11,10 +12,7 @@ class PaperMapper:
         self.logger = logger
         
         # Keywords to identify potential company affiliations (case-insensitive)
-        self.company_keywords = [
-            "inc", "incorporated", "pharma", "pharmaceutical", "biotech",
-            "ltd", "limited", "corp", "corporation", "company", "co"
-        ]
+        self.company_keywords = COMPANY_KEYWORDS
         
         # Regex pattern to find email addresses
         self.email_pattern = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
@@ -49,7 +47,11 @@ class PaperMapper:
             bool: True if the affiliation contains company-related keywords, False otherwise.
         """
         affiliation_lower = affiliation.lower()
-        return any(keyword in affiliation_lower for keyword in self.company_keywords)
+        # Check for academic keywords first
+        is_academic = any(keyword in affiliation_lower for keyword in ACADEMIC_KEYWORDS)
+        is_company = any(keyword in affiliation_lower for keyword in self.company_keywords)
+        # Consider it a company affiliation only if it has company keywords and no academic ones
+        return is_company and not is_academic
 
     def _extract_non_academic_authors(self, record: Dict) -> List[Dict[str, str]]:
         """Extract authors affiliated with non-academic institutions and their affiliations.
@@ -68,6 +70,9 @@ class PaperMapper:
         if not affiliations or len(affiliations) < len(authors):
             self.logger.warning(f"Insufficient affiliations for authors in record {record.get('PMID', 'Unknown')}")
             return non_academic_authors
+        
+        # Log all affiliations for debugging
+        self.logger.info(f"Affiliations for PMID {record.get('PMID', 'Unknown')}: {affiliations}")
 
         # Map authors to their affiliations (assuming one affiliation per author)
         for author, affiliation in zip(authors, affiliations):

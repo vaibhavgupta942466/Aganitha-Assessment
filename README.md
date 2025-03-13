@@ -73,6 +73,13 @@ The project is organized into the following structure:
     DEFAULT_EXECUTION_LOG_FOLDER=logs
     ```
 
+    or you can set the environment variables directly in your sysetm:
+
+    ```sh
+    NCBI_API_KEY=your_ncbi_api_key
+    NCBI_EMAIL=your_email@example.com
+    ```
+
 ## Usage
 
 To fetch papers from PubMed and append results to a CSV file, run the following command:

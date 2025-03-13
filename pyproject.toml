@@ -5,7 +5,10 @@ description = "Task is to write a Python program to fetch research papers based 
 authors = [
     {name = "Vaibhav",email = "vaibhavgupta942466@gmail.com"}
 ]
+license = "MIT"
 readme = "README.md"
+homepage = "https://github.com/vaibhavgupta942466/Aganitha-Assessment"
+repository = "https://github.com/vaibhavgupta942466/Aganitha-Assessment"
 requires-python = ">=3.12"
 dependencies = [
     "python-dotenv (>=1.0.1,<2.0.0)",
@@ -15,6 +18,7 @@ dependencies = [
 
 [tool.poetry]
 packages = [{include = "aganitha_assessment", from = "src"}]
+keywords = ["pubmed", "api", "research", "csv"]
 
 
 [build-system]
